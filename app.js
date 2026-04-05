@@ -1,3 +1,5 @@
+// ------- Fixture list for main page -------
+
 const fixtures = [
   {
     id: "match-1",
@@ -131,6 +133,8 @@ let currentMatchId = null;
 let predictionMode = "simple";
 let userPicks = loadUserPicks();
 
+// ------- Local storage helpers -------
+
 function loadUserPicks() {
   try {
     const raw = localStorage.getItem("ipl-2026-picks");
@@ -151,6 +155,8 @@ function saveUserPicks() {
   }
 }
 
+// ------- Common helpers -------
+
 function setTodayLabel() {
   const today = new Date();
   const label = today.toLocaleDateString("en-IN", {
@@ -161,6 +167,8 @@ function setTodayLabel() {
   const el = document.getElementById("todayLabel");
   if (el) el.textContent = label;
 }
+
+// ------- Main page: fixtures list -------
 
 function renderMatches() {
   const listEl = document.getElementById("matchesList");
@@ -286,6 +294,8 @@ function selectMatch(id) {
   updateFanPollMeta(match, probs);
 }
 
+// ------- Core probability engine -------
+
 function computeProbabilities(match, mode) {
   const formDiff = match.teamAForm - match.teamBForm;
   const h2hDiff = match.h2hAWinRate - match.h2hBWinRate;
@@ -346,10 +356,13 @@ function computeProbabilities(match, mode) {
   };
 }
 
+// ------- Gauge + fan poll -------
+
 function applyProbabilities(match, probs) {
+  const barFill = document.getElementById("probBarFill");
+
   const { probAperc, probBperc, edge, minScore, maxScore, groundTilt, formPulse } = probs;
 
-  const barFill = document.getElementById("probBarFill");
   const aFrac = probAperc / 100;
   barFill.style.setProperty("--a", `${aFrac * 100}%`);
   barFill.style.setProperty("--b", `${(1 - aFrac) * 100}%`);
@@ -483,6 +496,7 @@ function saveCurrentPick() {
 function renderUserPicks() {
   const listEl = document.getElementById("userPredictionsList");
   const countEl = document.getElementById("savedCount");
+  if (!listEl || !countEl) return;
 
   if (!userPicks.length) {
     listEl.innerHTML = `<span class="user-pred-pill">No picks yet. Save a prediction from the right panel.</span>`;
@@ -516,39 +530,64 @@ function renderUserPicks() {
 
 function resetAll() {
   currentMatchId = null;
-  userPicks = [];
-  saveUserPicks();
   renderUserPicks();
 
   document
     .querySelectorAll(".match-card")
     .forEach((el) => el.classList.remove("selected"));
-  document.getElementById("fanPollOptions").innerHTML = "";
-  document.getElementById("fanPollHint").textContent = "Select a match first.";
-  document.getElementById("fanPollMetaRight").textContent = "";
-  document.getElementById("selectedMatchTitle").textContent =
-    "Select a match on the left to see model output.";
-
-  document.getElementById("probTeamA").textContent = "Team A";
-  document.getElementById("probTeamB").textContent = "Team B";
-  document.getElementById("probAFavour").textContent = "Team A";
-  document.getElementById("probBFavour").textContent = "Team B";
-  document.getElementById("probAValue").textContent = "–%";
-  document.getElementById("probBValue").textContent = "–%";
-  document.getElementById("modelEdge").textContent = "–";
-  document.getElementById("scoreBand").textContent = "–";
-  document.getElementById("groundTilt").textContent = "–";
-  document.getElementById("formPulse").textContent = "–";
+  const fanOptionsEl = document.getElementById("fanPollOptions");
+  if (fanOptionsEl) fanOptionsEl.innerHTML = "";
+  const hintEl = document.getElementById("fanPollHint");
+  const rightEl = document.getElementById("fanPollMetaRight");
+  if (hintEl) hintEl.textContent = "Select a match first.";
+  if (rightEl) rightEl.textContent = "";
+  const titleEl = document.getElementById("selectedMatchTitle");
+  if (titleEl) {
+    titleEl.textContent =
+      "Select a match on the left to see model output.";
+  }
 
   const barFill = document.getElementById("probBarFill");
-  barFill.style.setProperty("--a", "50%");
-  barFill.style.setProperty("--b", "50%");
+  if (barFill) {
+    barFill.style.setProperty("--a", "50%");
+    barFill.style.setProperty("--b", "50%");
+  }
+
+  const ids = [
+    "probTeamA",
+    "probTeamB",
+    "probAFavour",
+    "probBFavour",
+    "probAValue",
+    "probBValue",
+    "modelEdge",
+    "scoreBand",
+    "groundTilt",
+    "formPulse"
+  ];
+  ids.forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id === "probTeamA" || id === "probTeamB" || id === "probAFavour" || id === "probBFavour") {
+      el.textContent = "Team " + (id.includes("A") ? "A" : "B");
+    } else if (id === "modelEdge") {
+      el.textContent = "–";
+    } else if (id === "probAValue" || id === "probBValue") {
+      el.textContent = "–%";
+    } else {
+      el.textContent = "–";
+    }
+  });
 }
 
 function setMode(mode) {
   predictionMode = mode;
-  document.getElementById("modeSimpleBtn").classList.toggle("active", mode === "simple");
-  document.getElementById("modeAdvancedBtn").classList.toggle("active", mode === "advanced");
+  const simpleBtn = document.getElementById("modeSimpleBtn");
+  const advBtn = document.getElementById("modeAdvancedBtn");
+  if (simpleBtn && advBtn) {
+    simpleBtn.classList.toggle("active", mode === "simple");
+    advBtn.classList.toggle("active", mode === "advanced");
+  }
 
   if (currentMatchId) {
     const match = fixtures.find((f) => f.id === currentMatchId);
@@ -557,6 +596,8 @@ function setMode(mode) {
     updateFanPollMeta(match, probs);
   }
 }
+
+// ------- Init (main page only) -------
 
 function init() {
   setTodayLabel();
