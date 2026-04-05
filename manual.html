@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IPL Manual Scenario · IPL 2026 Win Probability</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-pill">IPL</div>
+      <div>
+        <div>IPL Manual Scenario</div>
+        <div class="logo-sub">
+          Choose teams, players & venue · Free, non-money prediction · No betting
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <a href="index.html" class="chip">
+        <span>Back</span>
+        Match list
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <!-- Left: manual inputs -->
+      <section class="card">
+        <div class="card-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Custom setup</div>
+              <div class="section-title">Configure teams & venue</div>
+              <div class="section-sub">
+                Pick Team A / Team B, key players and venue. Model will use last-seasons style weights.
+              </div>
+            </div>
+          </div>
+
+          <div class="matches-scroll" style="max-height:none">
+            <div class="form-rows" style="gap:10px;font-size:12px">
+              <!-- Team A -->
+              <div class="form-row">
+                <div class="form-label">
+                  <span>Team A</span>
+                  <div>Franchise + 3 key players</div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                  <select id="manualTeamA" class="input-select">
+                    <option value="CSK">CSK · Chennai Super Kings</option>
+                    <option value="MI">MI · Mumbai Indians</option>
+                    <option value="RCB">RCB · Royal Challengers Bengaluru</option>
+                    <option value="GT">GT · Gujarat Titans</option>
+                    <option value="KKR">KKR · Kolkata Knight Riders</option>
+                    <option value="SRH">SRH · Sunrisers Hyderabad</option>
+                    <option value="DC">DC · Delhi Capitals</option>
+                    <option value="RR">RR · Rajasthan Royals</option>
+                    <option value="PBKS">PBKS · Punjab Kings</option>
+                    <option value="LSG">LSG · Lucknow Super Giants</option>
+                  </select>
+                  <input id="manualTeamAPlayers" class="input-text"
+                    placeholder="Key players (comma separated, e.g. Ruturaj, Dube, Jadeja)" />
+                </div>
+              </div>
+
+              <!-- Team B -->
+              <div class="form-row">
+                <div class="form-label">
+                  <span>Team B</span>
+                  <div>Franchise + 3 key players</div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                  <select id="manualTeamB" class="input-select">
+                    <option value="MI">MI · Mumbai Indians</option>
+                    <option value="CSK">CSK · Chennai Super Kings</option>
+                    <option value="RCB">RCB · Royal Challengers Bengaluru</option>
+                    <option value="GT">GT · Gujarat Titans</option>
+                    <option value="KKR">KKR · Kolkata Knight Riders</option>
+                    <option value="SRH">SRH · Sunrisers Hyderabad</option>
+                    <option value="DC">DC · Delhi Capitals</option>
+                    <option value="RR">RR · Rajasthan Royals</option>
+                    <option value="PBKS">PBKS · Punjab Kings</option>
+                    <option value="LSG">LSG · Lucknow Super Giants</option>
+                  </select>
+                  <input id="manualTeamBPlayers" class="input-text"
+                    placeholder="Key players (comma separated, e.g. Rohit, SKY, Bumrah)" />
+                </div>
+              </div>
+
+              <!-- Venue -->
+              <div class="form-row">
+                <div class="form-label">
+                  <span>Venue</span>
+                  <div>Ground + pitch behaviour (last 6 years style)</div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                  <select id="manualVenue" class="input-select">
+                    <option value="CHEP">Chennai · MA Chidambaram (slower, spin; bat-first tilt)</option>
+                    <option value="WANKHEDE">Mumbai · Wankhede (flat; slight chase tilt)</option>
+                    <option value="CHINNASWAMY">Bengaluru · Chinnaswamy (small ground; strong chase tilt)</option>
+                    <option value="ARUN_JAITLEY">Delhi · Arun Jaitley (balanced, slightly chase)</option>
+                    <option value="EDEN">Kolkata · Eden Gardens (true, neutral)</option>
+                    <option value="JAIPUR">Jaipur · SMS (spin assist, bat-first)</option>
+                    <option value="MOHALI">Mohali · IS Bindra (good batting, neutral)</option>
+                    <option value="AHMEDABAD">Ahmedabad · Narendra Modi (true; high scores)</option>
+                  </select>
+                  <div style="font-size:10px;color:var(--text-soft)">
+                    Venue presets internally use last-seasons style stats like average 1st innings
+                    and chase win rate (approx, heuristic). [Not actual live feed]
+                  </div>
+                </div>
+              </div>
+
+              <!-- Manual sliders -->
+              <div class="form-row">
+                <div class="form-label">
+                  <span>Recent form (last 6 years weight)</span>
+                  <div>0.0 = weak; 1.0 = strong (approx)</div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+                  <label style="font-size:10px;color:var(--text-soft)">
+                    Team A form:
+                    <input id="manualFormA" type="range" min="0.3" max="0.9" step="0.05" value="0.7" />
+                    <span id="manualFormALabel">0.70</span>
+                  </label>
+                  <label style="font-size:10px;color:var(--text-soft)">
+                    Team B form:
+                    <input id="manualFormB" type="range" min="0.3" max="0.9" step="0.05" value="0.65" />
+                    <span id="manualFormBLabel">0.65</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-label">
+                  <span>Head-to-head (last 6 years)</span>
+                  <div>Approx win share</div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+                  <label style="font-size:10px;color:var(--text-soft)">
+                    Team A H2H share:
+                    <input id="manualH2HA" type="range" min="0.3" max="0.8" step="0.05" value="0.55" />
+                    <span id="manualH2HALabel">0.55</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Button -->
+              <div class="form-row">
+                <div class="form-label">
+                  <span>Run model</span>
+                  <div>Use heuristic engine on this custom setup</div>
+                </div>
+                <button class="btn-primary" type="button" onclick="runManualScenario()">
+                  Predict manually configured match
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: output, reuse same gauge UI -->
+      <section class="card">
+        <div class="card-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Manual prediction</div>
+              <div class="section-title">
+                Win probability & score band
+              </div>
+              <div class="section-sub" id="manualSelectedTitle">
+                Fill teams & venue on the left, then run the model.
+              </div>
+            </div>
+          </div>
+
+          <div class="probability-gauge">
+            <div class="prob-header">
+              <div class="prob-teams">
+                <span id="manualProbTeamA">Team A</span>
+                <span class="vs">vs</span>
+                <span id="manualProbTeamB">Team B</span>
+              </div>
+              <div class="odds-pill">
+                <span>Model edge</span>
+                <strong id="manualModelEdge">–</strong>
+              </div>
+            </div>
+
+            <div class="prob-bar">
+              <div class="prob-bar-fill" id="manualProbBarFill">
+                <div class="prob-bar-a"></div>
+                <div class="prob-bar-b"></div>
+              </div>
+            </div>
+
+            <div class="prob-footer">
+              <div>
+                <strong id="manualProbAValue">–%</strong> &nbsp;favour
+                <span id="manualProbAFavour">Team A</span>
+              </div>
+              <div>
+                <strong id="manualProbBValue">–%</strong> &nbsp;favour
+                <span id="manualProbBFavour">Team B</span>
+              </div>
+            </div>
+
+            <div class="score-range">
+              <div class="score-pill">
+                <span>1st innings band:</span>
+                <strong id="manualScoreBand">–</strong>
+              </div>
+              <div class="score-pill">
+                <span>Ground tilt:</span>
+                <strong id="manualGroundTilt">–</strong>
+              </div>
+              <div class="score-pill">
+                <span>Form pulse:</span>
+                <strong id="manualFormPulse">–</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="disclaimer">
+            This manual page uses simple heuristic weights approximating last 6 seasons
+            patterns (team form, head-to-head and venue tilt). It is not an official or exact
+            statistical model and does not use real ball-by-ball data here. No betting or
+            real-money wagering is supported.
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div>IPL 2026 Prediction Site · Manual scenario lab · Free, non-money predictions.</div>
+    <div class="footer-links">
+      <a href="index.html">Match list</a>
+      <a href="https://github.com/qarnainnazish-a11y/ipl-win-probability" target="_blank" rel="noreferrer">
+        GitHub
+      </a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
