@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>IPL Manual Scenario · IPL 2026 Win Probability</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="manual.css" />
 </head>
 <body>
   <header>
@@ -27,7 +27,7 @@
 
   <main>
     <div class="layout">
-      <!-- Left: manual inputs -->
+      <!-- Left: inputs -->
       <section class="card">
         <div class="card-inner">
           <div class="section-header">
@@ -35,20 +35,20 @@
               <div class="section-kicker">Custom setup</div>
               <div class="section-title">Configure teams & venue</div>
               <div class="section-sub">
-                Pick Team A / Team B, key players and venue. Model will use last-seasons style weights.
+                Pick Team A / Team B, key players and venue. Model uses last-seasons style weights.
               </div>
             </div>
           </div>
 
-          <div class="matches-scroll" style="max-height:none">
-            <div class="form-rows" style="gap:10px;font-size:12px">
+          <div class="scroll">
+            <div class="form-rows">
               <!-- Team A -->
               <div class="form-row">
                 <div class="form-label">
                   <span>Team A</span>
                   <div>Franchise + 3 key players</div>
                 </div>
-                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                <div class="form-input-block">
                   <select id="manualTeamA" class="input-select">
                     <option value="CSK">CSK · Chennai Super Kings</option>
                     <option value="MI">MI · Mumbai Indians</option>
@@ -62,7 +62,7 @@
                     <option value="LSG">LSG · Lucknow Super Giants</option>
                   </select>
                   <input id="manualTeamAPlayers" class="input-text"
-                    placeholder="Key players (comma separated, e.g. Ruturaj, Dube, Jadeja)" />
+                    placeholder="Key players (e.g. Ruturaj, Dube, Jadeja)" />
                 </div>
               </div>
 
@@ -72,7 +72,7 @@
                   <span>Team B</span>
                   <div>Franchise + 3 key players</div>
                 </div>
-                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                <div class="form-input-block">
                   <select id="manualTeamB" class="input-select">
                     <option value="MI">MI · Mumbai Indians</option>
                     <option value="CSK">CSK · Chennai Super Kings</option>
@@ -86,7 +86,7 @@
                     <option value="LSG">LSG · Lucknow Super Giants</option>
                   </select>
                   <input id="manualTeamBPlayers" class="input-text"
-                    placeholder="Key players (comma separated, e.g. Rohit, SKY, Bumrah)" />
+                    placeholder="Key players (e.g. Rohit, SKY, Bumrah)" />
                 </div>
               </div>
 
@@ -96,37 +96,36 @@
                   <span>Venue</span>
                   <div>Ground + pitch behaviour (last 6 years style)</div>
                 </div>
-                <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                <div class="form-input-block">
                   <select id="manualVenue" class="input-select">
-                    <option value="CHEP">Chennai · MA Chidambaram (slower, spin; bat-first tilt)</option>
-                    <option value="WANKHEDE">Mumbai · Wankhede (flat; slight chase tilt)</option>
-                    <option value="CHINNASWAMY">Bengaluru · Chinnaswamy (small ground; strong chase tilt)</option>
-                    <option value="ARUN_JAITLEY">Delhi · Arun Jaitley (balanced, slightly chase)</option>
-                    <option value="EDEN">Kolkata · Eden Gardens (true, neutral)</option>
-                    <option value="JAIPUR">Jaipur · SMS (spin assist, bat-first)</option>
-                    <option value="MOHALI">Mohali · IS Bindra (good batting, neutral)</option>
-                    <option value="AHMEDABAD">Ahmedabad · Narendra Modi (true; high scores)</option>
+                    <option value="CHEP">Chennai · MA Chidambaram</option>
+                    <option value="WANKHEDE">Mumbai · Wankhede</option>
+                    <option value="CHINNASWAMY">Bengaluru · Chinnaswamy</option>
+                    <option value="ARUN_JAITLEY">Delhi · Arun Jaitley</option>
+                    <option value="EDEN">Kolkata · Eden Gardens</option>
+                    <option value="JAIPUR">Jaipur · SMS</option>
+                    <option value="MOHALI">Mohali · IS Bindra</option>
+                    <option value="AHMEDABAD">Ahmedabad · Narendra Modi</option>
                   </select>
-                  <div style="font-size:10px;color:var(--text-soft)">
-                    Venue presets internally use last-seasons style stats like average 1st innings
-                    and chase win rate (approx, heuristic). [Not actual live feed]
+                  <div class="help-text">
+                    Presets approximate last 6 seasons venue stats (avg first innings, chase win rate).
                   </div>
                 </div>
               </div>
 
-              <!-- Manual sliders -->
+              <!-- Form sliders -->
               <div class="form-row">
                 <div class="form-label">
-                  <span>Recent form (last 6 years weight)</span>
-                  <div>0.0 = weak; 1.0 = strong (approx)</div>
+                  <span>Recent form</span>
+                  <div>0.0 = weak; 1.0 = strong (approx, 6-year weight)</div>
                 </div>
-                <div style="flex:1;display:flex;flex-direction:column;gap:4px">
-                  <label style="font-size:10px;color:var(--text-soft)">
+                <div class="form-input-block">
+                  <label class="slider-label">
                     Team A form:
                     <input id="manualFormA" type="range" min="0.3" max="0.9" step="0.05" value="0.7" />
                     <span id="manualFormALabel">0.70</span>
                   </label>
-                  <label style="font-size:10px;color:var(--text-soft)">
+                  <label class="slider-label">
                     Team B form:
                     <input id="manualFormB" type="range" min="0.3" max="0.9" step="0.05" value="0.65" />
                     <span id="manualFormBLabel">0.65</span>
@@ -134,13 +133,14 @@
                 </div>
               </div>
 
+              <!-- H2H -->
               <div class="form-row">
                 <div class="form-label">
-                  <span>Head-to-head (last 6 years)</span>
-                  <div>Approx win share</div>
+                  <span>Head-to-head (6 years)</span>
+                  <div>Team A win share</div>
                 </div>
-                <div style="flex:1;display:flex;flex-direction:column;gap:4px">
-                  <label style="font-size:10px;color:var(--text-soft)">
+                <div class="form-input-block">
+                  <label class="slider-label">
                     Team A H2H share:
                     <input id="manualH2HA" type="range" min="0.3" max="0.8" step="0.05" value="0.55" />
                     <span id="manualH2HALabel">0.55</span>
@@ -148,11 +148,11 @@
                 </div>
               </div>
 
-              <!-- Button -->
+              <!-- Run button -->
               <div class="form-row">
                 <div class="form-label">
                   <span>Run model</span>
-                  <div>Use heuristic engine on this custom setup</div>
+                  <div>Heuristic engine on this custom setup</div>
                 </div>
                 <button class="btn-primary" type="button" onclick="runManualScenario()">
                   Predict manually configured match
@@ -163,7 +163,7 @@
         </div>
       </section>
 
-      <!-- Right: output, reuse same gauge UI -->
+      <!-- Right: output -->
       <section class="card">
         <div class="card-inner">
           <div class="section-header">
@@ -226,7 +226,7 @@
           </div>
 
           <div class="disclaimer">
-            This manual page uses simple heuristic weights approximating last 6 seasons
+            This manual page uses heuristic weights approximating last 6 seasons
             patterns (team form, head-to-head and venue tilt). It is not an official or exact
             statistical model and does not use real ball-by-ball data here. No betting or
             real-money wagering is supported.
@@ -246,6 +246,6 @@
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="manual.js"></script>
 </body>
 </html>
