@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IPL 2026 Win Probability</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-pill">IPL</div>
+      <div>
+        <div>IPL 2026 Win Probability</div>
+        <div class="logo-sub">Free, non-money predictions • No betting, no real-money wagering</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="chip">
+        <span>Model</span>
+        Heuristic v0.1
+      </div>
+      <button class="btn-primary" type="button" onclick="resetAll()">
+        Reset picks
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <section class="card">
+        <div class="card-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Match centre</div>
+              <div class="section-title">Upcoming IPL 2026 fixtures</div>
+              <div class="section-sub">
+                Dummy fixture list (offline demo). Replace later with live schedule / API.
+              </div>
+            </div>
+            <div class="badge-soft">
+              <strong>Today focus</strong>
+              <span id="todayLabel">TBD</span>
+            </div>
+          </div>
+
+          <div class="matches-scroll">
+            <div class="matches-list" id="matchesList"></div>
+          </div>
+
+          <div class="user-predictions-card">
+            <div class="user-predictions-header">
+              <span>Your saved picks (local browser only)</span>
+              <span id="savedCount">0 picks</span>
+            </div>
+            <div class="user-predictions-list" id="userPredictionsList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Prediction engine</div>
+              <div class="section-title">
+                Win probability & score lens
+              </div>
+              <div class="section-sub" id="selectedMatchTitle">
+                Select a match on the left to see model output.
+              </div>
+            </div>
+            <div class="pill-toggle" aria-label="Prediction mode">
+              <button type="button" class="active" id="modeSimpleBtn" onclick="setMode('simple')">Simple</button>
+              <button type="button" id="modeAdvancedBtn" onclick="setMode('advanced')">Weighted</button>
+            </div>
+          </div>
+
+          <div class="probability-gauge">
+            <div class="prob-header">
+              <div class="prob-teams">
+                <span id="probTeamA">Team A</span>
+                <span class="vs">vs</span>
+                <span id="probTeamB">Team B</span>
+              </div>
+              <div class="odds-pill">
+                <span>Model edge</span>
+                <strong id="modelEdge">–</strong>
+              </div>
+            </div>
+
+            <div class="prob-bar">
+              <div class="prob-bar-fill" id="probBarFill">
+                <div class="prob-bar-a"></div>
+                <div class="prob-bar-b"></div>
+              </div>
+            </div>
+
+            <div class="prob-footer">
+              <div>
+                <strong id="probAValue">–%</strong> &nbsp;favour
+                <span id="probAFavour">Team A</span>
+              </div>
+              <div>
+                <strong id="probBValue">–%</strong> &nbsp;favour
+                <span id="probBFavour">Team B</span>
+              </div>
+            </div>
+
+            <div class="score-range">
+              <div class="score-pill">
+                <span>1st innings band:</span>
+                <strong id="scoreBand">–</strong>
+              </div>
+              <div class="score-pill">
+                <span>Ground tilt:</span>
+                <strong id="groundTilt">–</strong>
+              </div>
+              <div class="score-pill">
+                <span>Form pulse:</span>
+                <strong id="formPulse">–</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="fan-poll">
+            <div class="form-row">
+              <div class="form-label">
+                <span>Your call</span>
+                <div>
+                  Pick your winner (just for fun, stored in your browser).
+                </div>
+              </div>
+              <button class="btn-primary" type="button" onclick="saveCurrentPick()">
+                Save pick
+              </button>
+            </div>
+
+            <div class="fan-poll-options" id="fanPollOptions"></div>
+
+            <div class="fan-poll-meta">
+              <span id="fanPollHint">Select a match first.</span>
+              <span id="fanPollMetaRight"></span>
+            </div>
+          </div>
+
+          <div class="disclaimer">
+            This site is a free, non-money IPL prediction demo. It does not offer or support betting,
+            gambling, or any real-money wagering. All probabilities are heuristic, educational
+            approximations and may be wrong. Please do not use this for financial decisions or
+            illegal activities.
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div>IPL 2026 Prediction Site · Free, non-money predictions · No betting, no real-money wagering.</div>
+    <div class="footer-links">
+      <span>Model v0.1 (heuristic, offline demo)</span>
+      <a href="https://github.com/qarnainnazish-a11y/ipl-win-probability" target="_blank" rel="noreferrer">
+        View source on GitHub
+      </a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
